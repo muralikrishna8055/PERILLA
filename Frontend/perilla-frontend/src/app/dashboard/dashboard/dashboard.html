@@ -1,1 +1,138 @@
-<p>dashboard works!</p>
+<div class="container py-4">
+  <h2 class="fw-bold">Dashboard</h2>
+  <p class="text-muted">
+    Welcome to Perilla Enterprise Platform ·
+    <strong>{{ role }}</strong>
+    
+  </p>
+
+
+
+
+  <!-- ADMIN DASHBOARD -->
+  <div class="row g-4 mt-3" *ngIf="role === 'ADMIN'">
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Employee Management</h5>
+        <p class="text-muted mb-0">Add, update and manage employees</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Department Management</h5>
+        <p class="text-muted mb-0">Create departments and assign managers</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Asset & Software</h5>
+        <p class="text-muted mb-0">Track hardware, licenses and expiry</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Payroll Processing</h5>
+        <p class="text-muted mb-0">Attendance-based salary calculation</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Projects & Tasks</h5>
+        <p class="text-muted mb-0">Manage enterprise projects</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Reports & Analytics</h5>
+        <p class="text-muted mb-0">Operational insights and summaries</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MANAGER DASHBOARD -->
+  <div class="row g-4 mt-3" *ngIf="role === 'MANAGER'">
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Team Members</h5>
+        <p class="text-muted mb-0">View and manage team employees</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Project & Tasks</h5>
+        <p class="text-muted mb-0">Assign and track work progress</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Attendance Approval</h5>
+        <p class="text-muted mb-0">Approve and override attendance</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Asset Allocation</h5>
+        <p class="text-muted mb-0">Assign assets to employees</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>Payroll Review</h5>
+        <p class="text-muted mb-0">Review salary before approval</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EMPLOYEE DASHBOARD -->
+  <div class="row g-4 mt-3" *ngIf="role === 'EMPLOYEE'">
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>My Profile</h5>
+        <p class="text-muted mb-0">View personal and job details</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>My Tasks</h5>
+        <p class="text-muted mb-0">Assigned work and progress</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>My Attendance</h5>
+        <p class="text-muted mb-0">Daily attendance tracking</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>My Assets</h5>
+        <p class="text-muted mb-0">Assigned hardware & software</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm dashboard-card">
+        <h5>My Payslips</h5>
+        <p class="text-muted mb-0">Salary history and downloads</p>
+      </div>
+    </div>
+
+  </div>
+</div>

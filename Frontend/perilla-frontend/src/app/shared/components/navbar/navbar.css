@@ -10,3 +10,11 @@
 .nav-link.active {
   color: #0d6efd;
 }
+
+.navbar .nav-link.active {
+  font-weight: 600;
+}
+
+.navbar .btn {
+  border-radius: 20px;
+}
