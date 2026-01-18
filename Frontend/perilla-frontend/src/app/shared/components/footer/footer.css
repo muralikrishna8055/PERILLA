@@ -1,6 +1,22 @@
 .footer {
-  background-color: #1e293b;
-  color: white;
-  text-align: center;
-  padding: 10px;
+  background: linear-gradient(135deg, #f8f9fa, #eef2f7);
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer h5,
+.footer h6 {
+  color: #111827;
+}
+
+.footer-link {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #4b5563;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.footer-link:hover {
+  color: #0d6efd;
+  text-decoration: underline;
 }

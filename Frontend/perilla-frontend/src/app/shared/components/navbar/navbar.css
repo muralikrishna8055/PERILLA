@@ -1,29 +1,12 @@
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #1e293b;
-  padding: 12px 24px;
-  color: white;
+.navbar-brand {
+  letter-spacing: 1px;
 }
 
-.logo {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
+.nav-link {
   font-weight: 500;
+  color: #333;
 }
 
-.nav-links a:hover {
-  text-decoration: underline;
+.nav-link.active {
+  color: #0d6efd;
 }
