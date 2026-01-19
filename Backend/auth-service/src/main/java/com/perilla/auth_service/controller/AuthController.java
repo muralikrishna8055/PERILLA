@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/auth")
 
@@ -20,9 +23,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<Map<String, String>>register(@RequestBody RegisterRequest request) {
         authService.register(request);
-        return ResponseEntity.ok("Tenant and Admin registered successfully");
+        return ResponseEntity.ok( Map.of("message", "Tenant and Admin registered successfully"));
+
     }
 
     @PostMapping("/login")

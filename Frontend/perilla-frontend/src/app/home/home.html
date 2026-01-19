@@ -1,71 +1,85 @@
-<!-- HERO / LANDING -->
-<section class="hero bg-white">
+<!-- HERO -->
+<section class="hero-section">
   <div class="container">
     <div class="row align-items-center min-vh-75">
       <div class="col-md-6">
-        <h1 class="fw-bold display-6">
-          Enterprise Management, Simplified
+        <span class="badge bg-primary-soft text-primary mb-3">
+          Enterprise SaaS Platform
+        </span>
+
+        <h1 class="hero-title">
+          Enterprise Management,<br />
+          <span class="text-primary">Simplified</span>
         </h1>
-        <p class="text-muted mt-3">
-          Perilla is a secure, scalable multi-tenant platform for managing
-          employees, assets, projects, attendance, and payroll — all in one place.
+
+        <p class="hero-subtitle">
+          Perilla is a secure, scalable, multi-tenant platform to manage employees,
+          assets, projects, attendance, and payroll — all from a single dashboard.
         </p>
 
-        <div class="mt-4">
+        <div class="hero-actions">
           <a routerLink="/login" class="btn btn-primary btn-lg me-3">
-            Login
+            Get Started
           </a>
           <a routerLink="/register" class="btn btn-outline-secondary btn-lg">
-            Request Access
+            Request Demo
           </a>
         </div>
       </div>
 
       <div class="col-md-6 text-center">
-        <div class="hero-box">
+        <div class="hero-card">
           <h5 class="fw-semibold">Built for Modern Enterprises</h5>
           <p class="text-muted mt-2">
-            Designed with microservices architecture and enterprise-grade security.
+            Microservices-based, role-secured, cloud-ready architecture.
           </p>
+          <ul class="hero-features">
+            <li>✔ Multi-Tenant Isolation</li>
+            <li>✔ Role-Based Access Control</li>
+            <li>✔ Scalable Microservices</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section class="services bg-light">
-  <div class="container py-5">
+<!-- MODULES -->
+<section class="modules-section">
+  <div class="container">
     <div class="text-center mb-5">
-      <h2 class="fw-bold">Core Modules</h2>
-      <p class="text-muted mt-2">
-        Everything you need to run enterprise operations efficiently.
+      <h2 class="section-title">Core Modules</h2>
+      <p class="section-subtitle">
+        Everything your organization needs to operate efficiently.
       </p>
     </div>
 
     <div class="row g-4">
       <div class="col-md-4">
-        <div class="service-card">
+        <div class="module-card">
+          <div class="module-icon">👥</div>
           <h5>Employee Management</h5>
-          <p class="text-muted">
+          <p>
             Centralized employee records, departments, roles, and reporting hierarchy.
           </p>
         </div>
       </div>
 
       <div class="col-md-4">
-        <div class="service-card">
-          <h5>Assets & Software</h5>
-          <p class="text-muted">
-            Track hardware assets, software licenses, configurations, and expiry dates.
+        <div class="module-card">
+          <div class="module-icon">💻</div>
+          <h5>Assets & Licenses</h5>
+          <p>
+            Track hardware assets, software licenses, configurations, and renewals.
           </p>
         </div>
       </div>
 
       <div class="col-md-4">
-        <div class="service-card">
+        <div class="module-card">
+          <div class="module-icon">📊</div>
           <h5>Attendance & Payroll</h5>
-          <p class="text-muted">
+          <p>
             Attendance-driven payroll processing with approval workflows.
           </p>
         </div>
@@ -75,29 +89,30 @@
 </section>
 
 <!-- ABOUT -->
-<section class="about bg-white">
-  <div class="container py-5">
+<section class="about-section">
+  <div class="container">
     <div class="row align-items-center">
       <div class="col-md-6">
-        <h2 class="fw-bold">About Perilla</h2>
-        <p class="text-muted mt-3">
-          Perilla is a multi-tenant enterprise management platform built using
-          Spring Boot microservices and Angular.
+        <h2 class="section-title">Why Perilla?</h2>
+        <p class="section-subtitle">
+          Designed for scalability, security, and enterprise growth.
         </p>
-        <p class="text-muted">
-          It ensures service isolation, secure role-based access, and scalability
-          for growing organizations.
-        </p>
+
+        <ul class="about-list">
+          <li>✔ Multi-Tenant SaaS Architecture</li>
+          <li>✔ Role & Permission-Based Access</li>
+          <li>✔ Modular Microservices Design</li>
+          <li>✔ Enterprise-Grade UI & UX</li>
+        </ul>
       </div>
 
       <div class="col-md-6">
         <div class="about-card">
-          <ul class="list-unstyled mb-0">
-            <li>✔ Multi-Tenant Architecture</li>
-            <li>✔ Role-Based Security</li>
-            <li>✔ Modular Microservices</li>
-            <li>✔ Enterprise-Grade UI</li>
-          </ul>
+          <h5>Technology Stack</h5>
+          <p>
+            Built with <strong>Spring Boot Microservices</strong>,
+            <strong>Angular</strong>, JWT Security, and scalable REST APIs.
+          </p>
         </div>
       </div>
     </div>

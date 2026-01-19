@@ -1,54 +1,52 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { AuthToken } from '../../shared/models/authmodel';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
-  private TOKEN_KEY = 'perilla_auth';
+  private TOKEN_KEY = 'perilla_token';
 
-  private authState = new BehaviorSubject<boolean>(this.hasToken());
-  auth$ = this.authState.asObservable();
-
-  constructor(private router: Router) {}
-
-  private hasToken(): boolean {
-    return !!localStorage.getItem(this.TOKEN_KEY);
+  // 🔐 Save JWT
+  setToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
   }
 
-  login(email: string): void {
-    let role: 'ADMIN' | 'MANAGER' | 'EMPLOYEE' = 'EMPLOYEE';
+  // 🔐 Get JWT
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
 
-    if (email.includes('admin')) role = 'ADMIN';
-    else if (email.includes('manager')) role = 'MANAGER';
+  // ✅ Auth check
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
 
-    const mockToken: AuthToken = {
-      accessToken: 'mock-jwt-token-xyz',
-      role,
-      username: email
-    };
+  // 🧠 Decode JWT payload
+  private decodeToken(): any | null {
+    const token = this.getToken();
+    if (!token) return null;
 
-    localStorage.setItem(this.TOKEN_KEY, JSON.stringify(mockToken));
-    this.authState.next(true);
+    try {
+      const payload = token.split('.')[1];
+      return JSON.parse(atob(payload));
+    } catch {
+      return null;
+    }
+  }
+
+  // 🎭 Get role from JWT
+  getRole(): string | null {
+    const decoded = this.decodeToken();
+    return decoded?.role || decoded?.roles || null;
   }
 
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
-    this.authState.next(false);
-    this.router.navigate(['/login']);
   }
 
-  getToken(): AuthToken | null {
-    const token = localStorage.getItem(this.TOKEN_KEY);
-    return token ? JSON.parse(token) : null;
-  }
-
-  isAuthenticated(): boolean {
-    return this.authState.value;
-  }
-
-  getRole(): string | null {
-    return this.getToken()?.role || null;
+  // 🔐 TEMP login (replace with HTTP call)
+  login(token: string): void {
+    this.setToken(token);
   }
 }

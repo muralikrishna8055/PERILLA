@@ -1,24 +1,58 @@
 <div class="container min-vh-100 d-flex align-items-center justify-content-center">
-  <div class="card shadow-sm p-4 register-card">
+  <div class="card shadow-sm p-4 register-card" style="max-width: 420px; width: 100%;">
     <h3 class="text-center fw-bold mb-3">Create Organization</h3>
 
-    <form (ngSubmit)="register()">
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+
       <div class="mb-3">
-        <label class="form-label">Company Name</label>
-        <input type="text" class="form-control" required />
+        <label class="form-label">Organization Name</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="organizationName"
+          name="organizationName"
+          required
+        />
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Admin Email</label>
-        <input type="email" class="form-control" required />
+        <label class="form-label">Tenant Code</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="tenantCode"
+          name="tenantCode"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Admin Username</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="adminUsername"
+          name="adminUsername"
+          required
+        />
       </div>
 
       <div class="mb-3">
         <label class="form-label">Password</label>
-        <input type="password" class="form-control" required />
+        <input
+          type="password"
+          class="form-control"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
       </div>
 
-      <button class="btn btn-primary w-100 mt-2">
+      <button
+        type="submit"
+        class="btn btn-primary w-100 mt-2"
+        [disabled]="registerForm.invalid"
+      >
         Register
       </button>
     </form>
