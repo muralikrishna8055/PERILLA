@@ -1,5 +1,6 @@
 package com.perilla.auth_service.service;
 
+import com.perilla.auth_service.dto.InternalUserRegisterRequest;
 import com.perilla.auth_service.dto.LoginRequest;
 import com.perilla.auth_service.dto.LoginResponse;
 import com.perilla.auth_service.dto.RegisterRequest;
@@ -67,4 +68,33 @@ public class AuthService {
                 user.getTenant().getCode()
         );
     }
+
+
+    public void registerEmployeeUser(InternalUserRegisterRequest request) {
+
+        Tenant tenant = tenantRepository
+                .findByCode(request.getTenantCode())
+                .orElseThrow(() -> new RuntimeException("Tenant not found"));
+
+        User user = User.builder()
+                .username(request.getUsername())
+                .password(passwordEncoder.encode("Temp@123")) // default password
+                .role(Role.valueOf(request.getRole()))
+                .active(true)
+                .tenant(tenant)
+                .build();
+
+        userRepository.save(user);
+    }
+
+
+    public void updateUserStatus(String username, boolean active) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setActive(active);
+        userRepository.save(user);
+    }
+
+
 }
