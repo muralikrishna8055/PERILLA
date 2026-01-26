@@ -1,11 +1,9 @@
-package com.perilla.auth_service.security;
+package com.perilla.employee.config.security;
 
-import com.perilla.auth_service.repository.RevokedTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,11 +15,13 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final RevokedTokenRepository revokedTokenRepository;
+
+    public JwtAuthenticationFilter(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -39,11 +39,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
 
-        if (revokedTokenRepository.existsById(token)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         if (!jwtService.validateToken(token)) {
             filterChain.doFilter(request, response);
             return;
@@ -51,8 +46,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String username = jwtService.extractUsername(token);
         String role = jwtService.extractRole(token);
-        String tenantCode = jwtService.extractTenantCode(token);
-        String employeeCode = jwtService.extractEmployeeCode(token);
 
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
@@ -67,10 +60,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        request.setAttribute("TENANT_CODE", tenantCode);
-        request.setAttribute("EMPLOYEE_CODE", employeeCode);
-
         filterChain.doFilter(request, response);
     }
 }
-

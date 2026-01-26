@@ -52,15 +52,33 @@ public class AuthService {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        if (!user.isActive()) {
+            throw new RuntimeException("User is inactive");
+        }
+
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
-        String token = jwtService.generateToken(
-                user.getUsername(),
-                user.getRole().name(),
-                user.getTenant().getCode()
-        );
+        String token;
+
+        if (user.getRole() == Role.ADMIN) {
+            token = jwtService.generateToken(
+                    "ADMIN",
+                    user.getTenant().getCode(),
+                    user.getUsername(), // email
+                    null
+            );
+        } else {
+            // EMPLOYEE + MANAGER
+            token = jwtService.generateToken(
+                    user.getRole().name(),
+                    user.getTenant().getCode(),
+                    null,
+                    user.getUsername() // employeeCode
+            );
+        }
+
 
         return new LoginResponse(
                 token,
@@ -68,6 +86,8 @@ public class AuthService {
                 user.getTenant().getCode()
         );
     }
+
+
 
 
     public void registerEmployeeUser(InternalUserRegisterRequest request) {
