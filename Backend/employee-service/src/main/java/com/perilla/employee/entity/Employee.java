@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
         },
         indexes = {
                 @Index(name = "idx_employee_tenant", columnList = "tenantCode"),
-                @Index(name = "idx_employee_department", columnList = "departmentId")
+                @Index(name = "idx_employee_department", columnList = "departmentCode")
         }
 )
 @Getter
@@ -57,9 +57,11 @@ public class Employee {
     // =====================
 
     @Column(nullable = false)
-    private Long departmentId;   // External reference (Department Service)
+    private String departmentCode;  // DEV, HR, FIN
 
-    private Long managerId;      // Self-reference (Employee ID)
+    @Column(nullable = false)
+    private String managerCode;     // EMP102
+    // Self-reference (Employee ID)
 
     // =====================
     // Employment Details

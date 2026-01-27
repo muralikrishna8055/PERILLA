@@ -27,6 +27,11 @@ spring:
                   /api/leaves/**,
                   /api/attendance/**,
                   /api/payroll/**
+
+            - id: department-service
+              uri: lb://department-service
+              predicates:
+                  - Path=/api/departments/**
 eureka:
   client:
     service-url:

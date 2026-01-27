@@ -25,10 +25,10 @@ public class CreateEmployeeRequest {
     private String phone;
     private String designation;
 
-    @NotNull
-    private Long departmentId;
+    @NotBlank
+    private String departmentCode;
 
-    private Long managerId;
+
 
     @NotNull
     private EmploymentType employmentType;

@@ -31,4 +31,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     // Used for employeeCode uniqueness validation
     boolean existsByEmployeeCodeAndTenantCode(String employeeCode, String tenantCode);
+
+    List<Employee> findAllByTenantCodeAndDepartmentCode(
+            String tenantCode,
+            String departmentCode
+    );
+
 }

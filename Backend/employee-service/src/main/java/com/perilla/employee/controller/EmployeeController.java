@@ -2,6 +2,7 @@ package com.perilla.employee.controller;
 
 import com.perilla.employee.dto.request.CreateEmployeeRequest;
 import com.perilla.employee.dto.request.EmployeeDetailResponse;
+import com.perilla.employee.dto.request.ManagerSyncRequest;
 import com.perilla.employee.dto.request.UpdateEmployeeRequest;
 import com.perilla.employee.dto.response.EmployeeResponse;
 import com.perilla.employee.entity.enums.EmployeeStatus;
@@ -29,15 +30,13 @@ public class EmployeeController {
        CREATE EMPLOYEE
        ========================= */
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EmployeeResponse> createEmployee(
             @Valid @RequestBody CreateEmployeeRequest request,
             HttpServletRequest httpRequest) {
 
-        EmployeeResponse response =
-                employeeService.createEmployee(request, httpRequest);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(employeeService.createEmployee(request, httpRequest));
     }
 
     /* =========================
@@ -48,88 +47,83 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeResponse>> getAllEmployees(
             HttpServletRequest request) {
 
-        return ResponseEntity.ok(
-                employeeService.getAllEmployees(request)
-        );
+        return ResponseEntity.ok(employeeService.getAllEmployees(request));
     }
 
+    /* =========================
+       UPDATE EMPLOYEE (ADMIN)
+       ========================= */
     @PutMapping("/{employeeCode}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EmployeeResponse> updateEmployee(
             @PathVariable String employeeCode,
             @Valid @RequestBody UpdateEmployeeRequest request,
             HttpServletRequest httpRequest) {
 
-        EmployeeResponse response =
-                employeeService.updateEmployee(employeeCode, request, httpRequest);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(
+                employeeService.updateEmployee(employeeCode, request, httpRequest)
+        );
     }
 
-    @PatchMapping("/{employeeCode}/department/{departmentId}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    /* =========================
+       ASSIGN DEPARTMENT
+       ========================= */
+    @PatchMapping("/{employeeCode}/department/{departmentCode}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EmployeeResponse> assignDepartment(
             @PathVariable String employeeCode,
-            @PathVariable Long departmentId,
+            @PathVariable String departmentCode,
             HttpServletRequest request) {
 
-        UpdateEmployeeRequest dto = new UpdateEmployeeRequest();
-        dto.setDepartmentId(departmentId);
-
         return ResponseEntity.ok(
-                employeeService.updateEmployee(employeeCode, dto, request)
+                employeeService.assignDepartment(employeeCode, departmentCode, request)
         );
     }
 
-    @PatchMapping("/{employeeCode}/manager/{managerId}")
+    /* =========================
+       INTERNAL – MANAGER SYNC
+       ========================= */
+    @PostMapping("/internal/manager-sync")
+    public void updateManagerByDepartment(
+            @RequestHeader("X-Tenant-Code") String tenant,
+            @RequestBody ManagerSyncRequest request) {
+
+        employeeService.updateManagerByDepartment(tenant, request);
+    }
+
+    /* =========================
+       ACTIVATE / DEACTIVATE
+       ========================= */
+    @PatchMapping("/{employeeCode}/activate")
     @PreAuthorize("hasAnyRole('ADMIN','HR')")
-    public ResponseEntity<EmployeeResponse> assignManager(
+    public ResponseEntity<EmployeeResponse> activate(
             @PathVariable String employeeCode,
-            @PathVariable Long managerId,
             HttpServletRequest request) {
 
-        UpdateEmployeeRequest dto = new UpdateEmployeeRequest();
-        dto.setManagerId(managerId);
-
         return ResponseEntity.ok(
-                employeeService.updateEmployee(employeeCode, dto, request)
+                employeeService.changeEmployeeStatus(
+                        employeeCode, EmployeeStatus.ACTIVE, request)
         );
     }
-
 
     @PatchMapping("/{employeeCode}/deactivate")
     @PreAuthorize("hasAnyRole('ADMIN','HR')")
-    public ResponseEntity<EmployeeResponse> deactivateEmployee(
+    public ResponseEntity<EmployeeResponse> deactivate(
             @PathVariable String employeeCode,
             HttpServletRequest request) {
 
         return ResponseEntity.ok(
                 employeeService.changeEmployeeStatus(
-                        employeeCode,
-                        EmployeeStatus.INACTIVE,
-                        request
-                )
+                        employeeCode, EmployeeStatus.INACTIVE, request)
         );
     }
 
-    @PatchMapping("/{employeeCode}/activate")
-    @PreAuthorize("hasAnyRole('ADMIN','HR')")
-    public ResponseEntity<EmployeeResponse> activateEmployee(
-            @PathVariable String employeeCode,
-            HttpServletRequest request) {
-
-        return ResponseEntity.ok(
-                employeeService.changeEmployeeStatus(
-                        employeeCode,
-                        EmployeeStatus.ACTIVE,
-                        request
-                )
-        );
-    }
-
+    /* =========================
+       GET EMPLOYEE
+       ========================= */
     @GetMapping("/{employeeCode}")
     @PreAuthorize("hasAnyRole('ADMIN','HR','MANAGER')")
-    public ResponseEntity<EmployeeDetailResponse> getEmployeeByCode(
+    public ResponseEntity<EmployeeDetailResponse> getEmployee(
             @PathVariable String employeeCode,
             HttpServletRequest request) {
 
@@ -137,7 +131,5 @@ public class EmployeeController {
                 employeeService.getEmployeeByCode(employeeCode, request)
         );
     }
-
-
-
 }
+

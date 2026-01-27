@@ -15,8 +15,11 @@ public class UpdateEmployeeRequest {
 
     private String phone;
     private String designation;
-    private Long departmentId;
-    private Long managerId;
+
+    // 🔥 Admin can change department, manager auto-follows
+    private String departmentCode;
+
     private EmployeeStatus status;
 }
+
 

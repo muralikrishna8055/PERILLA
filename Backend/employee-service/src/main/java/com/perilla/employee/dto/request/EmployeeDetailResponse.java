@@ -20,8 +20,8 @@ public class EmployeeDetailResponse {
     private String phone;
     private String designation;
 
-    private Long departmentId;
-    private Long managerId;
+    private String departmentId;
+    private String managerId;
 
     private LocalDate joiningDate;
     private EmploymentType employmentType;

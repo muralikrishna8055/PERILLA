@@ -1,11 +1,10 @@
 package com.perilla.employee.service;
 
 import com.perilla.employee.config.feign.AuthFeignClient;
+import com.perilla.employee.config.feign.DepartmentFeignClient;
 import com.perilla.employee.config.security.JwtService;
-import com.perilla.employee.dto.request.AuthUserCreateRequest;
-import com.perilla.employee.dto.request.CreateEmployeeRequest;
-import com.perilla.employee.dto.request.EmployeeDetailResponse;
-import com.perilla.employee.dto.request.UpdateEmployeeRequest;
+import com.perilla.employee.dto.request.*;
+import com.perilla.employee.dto.response.DepartmentManagerResponse;
 import com.perilla.employee.dto.response.EmployeeResponse;
 import com.perilla.employee.dto.response.LeaveResponse;
 import com.perilla.employee.entity.Employee;
@@ -32,37 +31,41 @@ public class EmployeeService {
     private final AuthFeignClient authFeignClient;
     private final JwtService jwtService;
     private final EmployeeSequenceRepository sequenceRepository;
+    private final DepartmentFeignClient departmentFeignClient;
 
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            AuthFeignClient authFeignClient,
-                           JwtService jwtService, EmployeeSequenceRepository sequenceRepository) {
+                           JwtService jwtService, EmployeeSequenceRepository sequenceRepository, DepartmentFeignClient departmentFeignClient) {
         this.employeeRepository = employeeRepository;
         this.authFeignClient = authFeignClient;
         this.jwtService = jwtService;
         this.sequenceRepository = sequenceRepository;
+        this.departmentFeignClient = departmentFeignClient;
     }
 
     /* =========================
        CREATE EMPLOYEE
        ========================= */
     @Transactional
-    public EmployeeResponse createEmployee(CreateEmployeeRequest request,
-                                           HttpServletRequest httpRequest) {
-
-
-
+    public EmployeeResponse createEmployee(
+            CreateEmployeeRequest request,
+            HttpServletRequest httpRequest) {
 
         String token = extractToken(httpRequest);
         String tenantCode = jwtService.extractTenantCode(token);
 
-        System.out.print( tenantCode);
-
-        // Email must still be unique per tenant
         if (employeeRepository.existsByEmailAndTenantCode(
                 request.getEmail(), tenantCode)) {
             throw new IllegalArgumentException("Email already exists");
         }
+
+        // 🔥 CALL DEPARTMENT SERVICE
+        DepartmentManagerResponse dept =
+                departmentFeignClient.getManager(
+                        request.getDepartmentCode(),
+                        tenantCode
+                );
 
         String employeeCode = generateEmployeeCode(tenantCode);
 
@@ -73,8 +76,8 @@ public class EmployeeService {
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .designation(request.getDesignation())
-                .departmentId(request.getDepartmentId())
-                .managerId(request.getManagerId())
+                .departmentCode(dept.getDepartmentCode())
+                .managerCode(dept.getManagerCode())   // 🔥 AUTO
                 .joiningDate(request.getJoiningDate())
                 .employmentType(request.getEmploymentType())
                 .baseSalary(request.getBaseSalary())
@@ -82,23 +85,44 @@ public class EmployeeService {
                 .tenantCode(tenantCode)
                 .build();
 
-        Employee savedEmployee = employeeRepository.save(employee);
+        employeeRepository.save(employee);
 
         if (request.getRole() != null) {
-            try {
-                authFeignClient.createUser(
-                        new AuthUserCreateRequest(employeeCode, request.getRole(), tenantCode)
-                );
-            } catch (Exception ex) {
-                throw new RuntimeException(
-                        "Employee created but Auth user creation failed", ex
-                );
-            }
+            authFeignClient.createUser(
+                    new AuthUserCreateRequest(employeeCode, request.getRole(), tenantCode)
+            );
         }
 
-
-        return mapToResponse(savedEmployee);
+        return mapToResponse(employee);
     }
+
+
+    @Transactional
+    public EmployeeResponse assignDepartment(
+            String employeeCode,
+            String departmentCode,
+            HttpServletRequest request) {
+
+        String tenant = jwtService.extractTenantCode(extractToken(request));
+
+        Employee emp = employeeRepository
+                .findByEmployeeCodeAndTenantCode(employeeCode, tenant)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+
+        DepartmentManagerResponse dept =
+                departmentFeignClient.getManager(departmentCode, tenant);
+
+        emp.setDepartmentCode(dept.getDepartmentCode());
+        emp.setManagerCode(dept.getManagerCode());
+
+        employeeRepository.save(emp);
+        return mapToResponse(emp);
+    }
+
+
+
+
+
 
 
 
@@ -164,62 +188,71 @@ public class EmployeeService {
                 .build();
     }
 
+    @Transactional
+    public void updateManagerByDepartment(
+            String tenant,
+            ManagerSyncRequest req) {
+
+        employeeRepository
+                .findAllByTenantCodeAndDepartmentCode(
+                        tenant, req.getDepartmentCode())
+                .forEach(emp -> emp.setManagerCode(req.getManagerCode()));
+    }
 
 
+
+
+
+    @Transactional
     public EmployeeResponse updateEmployee(
             String employeeCode,
             UpdateEmployeeRequest request,
             HttpServletRequest httpRequest) {
 
-        String token = extractToken(httpRequest);
-        String tenantCode = jwtService.extractTenantCode(token);
+        String tenant = jwtService.extractTenantCode(extractToken(httpRequest));
 
         Employee employee = employeeRepository
-                .findByEmployeeCodeAndTenantCode(employeeCode, tenantCode)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Employee not found"));
+                .findByEmployeeCodeAndTenantCode(employeeCode, tenant)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
 
-        if (request.getFirstName() != null) {
+        if (request.getFirstName() != null)
             employee.setFirstName(request.getFirstName());
-        }
 
-        if (request.getLastName() != null) {
+        if (request.getLastName() != null)
             employee.setLastName(request.getLastName());
-        }
 
         if (request.getEmail() != null &&
                 !request.getEmail().equals(employee.getEmail())) {
 
             if (employeeRepository.existsByEmailAndTenantCode(
-                    request.getEmail(), tenantCode)) {
+                    request.getEmail(), tenant)) {
                 throw new IllegalArgumentException("Email already exists");
             }
             employee.setEmail(request.getEmail());
         }
 
-        if (request.getPhone() != null) {
+        if (request.getPhone() != null)
             employee.setPhone(request.getPhone());
-        }
 
-        if (request.getDesignation() != null) {
+        if (request.getDesignation() != null)
             employee.setDesignation(request.getDesignation());
+
+        // 🔥 Department change → recalc manager
+        if (request.getDepartmentCode() != null) {
+            DepartmentManagerResponse dept =
+                    departmentFeignClient.getManager(
+                            request.getDepartmentCode(), tenant);
+
+            employee.setDepartmentCode(dept.getDepartmentCode());
+            employee.setManagerCode(dept.getManagerCode());
         }
 
-        if (request.getDepartmentId() != null) {
-            employee.setDepartmentId(request.getDepartmentId());
-        }
-
-        if (request.getManagerId() != null) {
-            employee.setManagerId(request.getManagerId());
-        }
-
-        if (request.getStatus() != null) {
+        if (request.getStatus() != null)
             employee.setStatus(request.getStatus());
-        }
 
-        Employee updated = employeeRepository.save(employee);
-        return mapToResponse(updated);
+        return mapToResponse(employeeRepository.save(employee));
     }
+
 
 
     public EmployeeResponse changeEmployeeStatus(
@@ -264,8 +297,8 @@ public class EmployeeService {
                 .email(e.getEmail())
                 .phone(e.getPhone())
                 .designation(e.getDesignation())
-                .departmentId(e.getDepartmentId())
-                .managerId(e.getManagerId())
+                .departmentId(e.getDepartmentCode())
+                .managerId(e.getManagerCode())
                 .joiningDate(e.getJoiningDate())
                 .employmentType(e.getEmploymentType())
                 .baseSalary(e.getBaseSalary())
