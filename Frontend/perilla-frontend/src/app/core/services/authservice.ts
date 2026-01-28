@@ -1,28 +1,60 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
 
-  private TOKEN_KEY = 'perilla_token';
+  private readonly API_URL = 'http://localhost:8080/api/auth';
+  private readonly TOKEN_KEY = 'perilla_token';
 
-  // 🔐 Save JWT
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
+
+  // ================= TOKEN =================
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
 
-  // 🔐 Get JWT
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  // ✅ Auth check
+  clearSession(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem('role');
+    localStorage.removeItem('employeeCode');
+    localStorage.removeItem('tenantCode');
+  }
+
+  // ================= LOGIN =================
+  handleLogin(res: any): void {
+    this.setToken(res.token);
+  }
+
+  // ================= LOGOUT =================
+  logout(): void {
+    this.http.post(`${this.API_URL}/logout`, {}).subscribe({
+      next: () => this.finishLogout(),
+      error: () => this.finishLogout(), // backend failure shouldn't block logout
+    });
+  }
+
+  private finishLogout(): void {
+    this.clearSession();
+    this.router.navigate(['/']);
+  }
+
+  // ================= AUTH CHECK =================
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
 
-  // 🧠 Decode JWT payload
+  // ================= JWT =================
   private decodeToken(): any | null {
     const token = this.getToken();
     if (!token) return null;
@@ -35,18 +67,16 @@ export class AuthService {
     }
   }
 
-  // 🎭 Get role from JWT
-  getRole(): string | null {
-    const decoded = this.decodeToken();
-    return decoded?.role || decoded?.roles || null;
+  // ================= CLAIMS =================
+  getRole(): 'ADMIN' | 'MANAGER' | 'EMPLOYEE' | null {
+    return this.decodeToken()?.role ?? null;
   }
 
-  logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
+  getTenantCode(): string | null {
+    return this.decodeToken()?.tenantCode ?? null;
   }
 
-  // 🔐 TEMP login (replace with HTTP call)
-  login(token: string): void {
-    this.setToken(token);
+  getEmployeeCode(): string | null {
+    return this.decodeToken()?.employeeCode ?? null;
   }
 }

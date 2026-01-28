@@ -1,18 +1,21 @@
-<footer class="footer mt-auto">
+<footer class="footer-section">
   <div class="container py-5">
     <div class="row gy-4">
 
       <!-- Brand -->
-      <div class="col-md-4">
-        <h5 class="fw-bold">PERILLA</h5>
-        <p class="text-muted mt-2">
-          Multi-Tenant Enterprise Management Platform built for scalability,
-          security, and operational efficiency.
+      <div class="col-lg-4">
+        <h5 class="fw-bold d-flex align-items-center">
+          <span class="brand-dot me-2"></span>
+          PERILLA
+        </h5>
+        <p class="text-muted mt-3">
+          Multi-tenant enterprise management platform built for
+          scalability, security, and operational excellence.
         </p>
       </div>
 
-      <!-- Links -->
-      <div class="col-md-2">
+      <!-- Product -->
+      <div class="col-6 col-lg-2">
         <h6 class="fw-semibold">Product</h6>
         <ul class="list-unstyled mt-3">
           <li><a routerLink="/" class="footer-link">Home</a></li>
@@ -21,7 +24,8 @@
         </ul>
       </div>
 
-      <div class="col-md-2">
+      <!-- Company -->
+      <div class="col-6 col-lg-2">
         <h6 class="fw-semibold">Company</h6>
         <ul class="list-unstyled mt-3">
           <li><a class="footer-link">About</a></li>
@@ -31,15 +35,16 @@
       </div>
 
       <!-- Contact -->
-      <div class="col-md-4">
+      <div class="col-lg-4">
         <h6 class="fw-semibold">Contact</h6>
         <p class="text-muted mt-3 mb-1">
-          Email: support@perilla.io
+          support@perilla.io
         </p>
-        <p class="text-muted">
+        <p class="text-muted small">
           © {{ currentYear }} Perilla. All rights reserved.
         </p>
       </div>
+
     </div>
   </div>
 </footer>

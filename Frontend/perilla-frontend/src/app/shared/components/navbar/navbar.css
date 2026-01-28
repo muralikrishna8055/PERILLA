@@ -1,20 +1,25 @@
-.navbar-brand {
-  letter-spacing: 1px;
+/* Glass Navbar */
+.navbar-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-.nav-link {
-  font-weight: 500;
-  color: #333;
+/* Brand Accent */
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
 }
 
+/* Active Link */
 .nav-link.active {
-  color: #0d6efd;
-}
-
-.navbar .nav-link.active {
+  color: #4f46e5 !important;
   font-weight: 600;
 }
 
-.navbar .btn {
-  border-radius: 20px;
+/* Navbar spacing fix for fixed-top */
+body {
+  padding-top: 72px;
 }

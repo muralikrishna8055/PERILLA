@@ -1,5 +1,7 @@
-export interface AuthToken {
-  accessToken: string;
+export interface LoginResponse {
+  token: string;
   role: 'ADMIN' | 'MANAGER' | 'EMPLOYEE';
-  username: string;
+  tenantCode: string;
+  employeeCode?: string;
 }
+

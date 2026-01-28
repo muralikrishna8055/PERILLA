@@ -6,6 +6,8 @@ import com.perilla.api_gateway.security.JwtService;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -25,8 +27,9 @@ public class JwtAuthenticationFilter implements GlobalFilter {
 
         String path = exchange.getRequest().getURI().getPath();
 
-        // Auth APIs are public
-        if (path.startsWith("/api/auth")) {
+        // ✅ Allow auth & OPTIONS requests without JWT
+        if (path.startsWith("/api/auth")
+                || exchange.getRequest().getMethod() == HttpMethod.OPTIONS) {
             return chain.filter(exchange);
         }
 
@@ -35,15 +38,14 @@ public class JwtAuthenticationFilter implements GlobalFilter {
                 .getFirst(HttpHeaders.AUTHORIZATION);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new RuntimeException("Missing Authorization header");
+            // ❌ NEVER throw RuntimeException in Gateway
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
         }
 
         String token = authHeader.substring(7);
-
-        // Validate token
         jwtService.validateToken(token);
 
-        // Propagate context headers
         ServerHttpRequest request = exchange.getRequest()
                 .mutate()
                 .header("X-Tenant-Code", jwtService.extractTenant(token))

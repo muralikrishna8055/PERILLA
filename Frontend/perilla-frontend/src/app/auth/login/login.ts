@@ -22,25 +22,21 @@ export class Login {
   ) {}
 
   onLogin(): void {
-    const payload = {
-      username: this.username,
-      password: this.password
-    };
+  const payload = {
+    username: this.username, // email OR employeeCode
+    password: this.password
+  };
 
-    this.http.post<any>('http://localhost:8081/api/auth/login', payload)
-      .subscribe({
-        next: (res) => {
-          this.authService.setToken(res.token);
+  this.http.post<any>('http://localhost:8080/api/auth/login', payload)
+    .subscribe({
+      next: (res) => {
+        this.authService.handleLogin(res);
 
-          const role = this.authService.getRole();
-          if (role === 'ADMIN' || role === 'MANAGER') {
-  this.router.navigate(['/dashboard']);
-} else {
-  this.router.navigate(['/dashboard']);
+        const role = res.role;
+        this.router.navigate(['/dashboard']);
+      },
+      error: () => alert('Invalid credentials')
+    });
 }
 
-        },
-        error: () => alert('Invalid credentials')
-      });
-  }
 }

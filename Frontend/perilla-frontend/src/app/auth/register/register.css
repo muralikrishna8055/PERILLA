@@ -1,4 +1,21 @@
 .register-card {
-  width: 100%;
-  max-width: 480px;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.form-control {
+  border-radius: 10px;
+}
+
+.btn-primary {
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }

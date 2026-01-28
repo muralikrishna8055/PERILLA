@@ -7,6 +7,7 @@ import com.perilla.auth_service.dto.RegisterRequest;
 import com.perilla.auth_service.entity.Role;
 import com.perilla.auth_service.entity.Tenant;
 import com.perilla.auth_service.entity.User;
+import com.perilla.auth_service.exception.TenantAlreadyExistsException;
 import com.perilla.auth_service.repository.TenantRepository;
 import com.perilla.auth_service.repository.UserRepository;
 import com.perilla.auth_service.security.JwtService;
@@ -26,8 +27,9 @@ public class AuthService {
     public void register(RegisterRequest request) {
 
         if (tenantRepository.existsByCode(request.getTenantCode())) {
-            throw new RuntimeException("Tenant code already exists");
+            throw new TenantAlreadyExistsException("Tenant code already exists");
         }
+
 
         Tenant tenant = Tenant.builder()
                 .organizationName(request.getOrganizationName())

@@ -27,4 +27,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     long countByAssignedEmployeeCodeAndStatus(String employeeCode, TaskStatus status);
 
+    List<Task> findByAssignedToAndTenantId(String employeeCode, String tenantId);
 }

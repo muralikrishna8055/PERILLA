@@ -17,6 +17,8 @@ export class Register {
   adminUsername = '';
   password = '';
 
+  private readonly API_URL = 'http://localhost:8080/api/auth/register';
+
   constructor(
     private http: HttpClient,
     private router: Router
@@ -25,24 +27,22 @@ export class Register {
   onRegister(): void {
 
     const payload = {
-      organizationName: this.organizationName,
-      tenantCode: this.tenantCode,
-      adminUsername: this.adminUsername,
+      organizationName: this.organizationName.trim(),
+      tenantCode: this.tenantCode.trim().toUpperCase(),
+      adminUsername: this.adminUsername.trim(),
       password: this.password
     };
 
-    this.http.post(
-      'http://localhost:8081/api/auth/register',
-      payload
-    ).subscribe({
-      next: () => {
-        alert('Organization registered successfully');
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Registration failed');
-      }
-    });
+    this.http.post<{ message: string }>(this.API_URL, payload)
+      .subscribe({
+        next: (res) => {
+          alert(res.message);
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error(err);
+          alert(err?.error?.message || 'Registration failed');
+        }
+      });
   }
 }

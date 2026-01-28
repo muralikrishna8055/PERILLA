@@ -1,22 +1,17 @@
-.footer {
-  background: linear-gradient(135deg, #f8f9fa, #eef2f7);
+.footer-section {
+  background: #f8fafc;
   border-top: 1px solid #e5e7eb;
-}
-
-.footer h5,
-.footer h6 {
-  color: #111827;
 }
 
 .footer-link {
   display: inline-block;
-  margin-bottom: 8px;
-  color: #4b5563;
+  color: #475569;
   text-decoration: none;
-  font-size: 0.95rem;
+  margin-bottom: 8px;
+  transition: color 0.2s ease;
 }
 
 .footer-link:hover {
-  color: #0d6efd;
+  color: #4f46e5;
   text-decoration: underline;
 }

@@ -1,86 +1,122 @@
 <!-- HERO -->
 <section class="hero-section">
   <div class="container">
-    <div class="row align-items-center min-vh-75">
-      <div class="col-md-6">
-        <span class="badge bg-primary-soft text-primary mb-3">
-          Enterprise SaaS Platform
+    <div class="row align-items-center min-vh-100">
+      <div class="col-lg-6">
+        <span class="badge rounded-pill bg-primary-subtle text-primary px-3 py-2 mb-3">
+          🚀 Enterprise SaaS Platform
         </span>
 
-        <h1 class="hero-title">
-          Enterprise Management,<br />
-          <span class="text-primary">Simplified</span>
+        <h1 class="display-4 fw-bold mt-3">
+          Enterprise Management<br />
+          <span class="text-gradient">Reimagined</span>
         </h1>
 
-        <p class="hero-subtitle">
-          Perilla is a secure, scalable, multi-tenant platform to manage employees,
-          assets, projects, attendance, and payroll — all from a single dashboard.
+        <p class="lead text-muted mt-4">
+          Perilla is a secure, multi-tenant enterprise management platform
+          to manage employees, departments, projects, attendance,
+          assets, and payroll — all from one intelligent dashboard.
         </p>
 
-        <div class="hero-actions">
-          <a routerLink="/login" class="btn btn-primary btn-lg me-3">
+        <div class="d-flex gap-3 mt-4">
+          <a routerLink="/login" class="btn btn-primary btn-lg px-4">
             Get Started
           </a>
-          <a routerLink="/register" class="btn btn-outline-secondary btn-lg">
+          <a routerLink="/register" class="btn btn-outline-secondary btn-lg px-4">
             Request Demo
           </a>
         </div>
       </div>
 
-      <div class="col-md-6 text-center">
-        <div class="hero-card">
-          <h5 class="fw-semibold">Built for Modern Enterprises</h5>
-          <p class="text-muted mt-2">
-            Microservices-based, role-secured, cloud-ready architecture.
+      <div class="col-lg-6 position-relative text-center mt-5 mt-lg-0">
+        <img
+          src="https://www.nicepng.com/png/detail/867-8671048_our-solutions-ranging-from-end-to-end-enterprise.png"
+          class="img-fluid hero-illustration"
+          alt="Enterprise Platform"
+        />
+
+        <div class="floating-card card-1">👥 Employees</div>
+        <div class="floating-card card-2">📊 Payroll</div>
+        <div class="floating-card card-3">🔐 RBAC Security</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="highlight-section">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="highlight-card h-100">
+          <div class="icon-circle bg-primary">🏢</div>
+          <h5 class="fw-semibold mt-3">Multi-Tenant SaaS</h5>
+          <p class="text-muted">
+            Strict tenant isolation with enterprise-grade data security.
           </p>
-          <ul class="hero-features">
-            <li>✔ Multi-Tenant Isolation</li>
-            <li>✔ Role-Based Access Control</li>
-            <li>✔ Scalable Microservices</li>
-          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="highlight-card h-100">
+          <div class="icon-circle bg-success">🔐</div>
+          <h5 class="fw-semibold mt-3">RBAC + JWT</h5>
+          <p class="text-muted">
+            Role-based access with token-secured APIs.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="highlight-card h-100">
+          <div class="icon-circle bg-info">⚙️</div>
+          <h5 class="fw-semibold mt-3">Microservices</h5>
+          <p class="text-muted">
+            Scalable, fault-tolerant Spring Boot services.
+          </p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MODULES -->
+<!-- CORE MODULES -->
 <section class="modules-section">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="section-title">Core Modules</h2>
-      <p class="section-subtitle">
-        Everything your organization needs to operate efficiently.
+      <h2 class="fw-bold">Core Modules</h2>
+      <p class="text-muted">
+        Everything your enterprise needs to operate efficiently.
       </p>
     </div>
 
     <div class="row g-4">
       <div class="col-md-4">
-        <div class="module-card">
-          <div class="module-icon">👥</div>
-          <h5>Employee Management</h5>
-          <p>
-            Centralized employee records, departments, roles, and reporting hierarchy.
+        <div class="module-card h-100">
+          <div class="module-icon bg-primary">👥</div>
+          <h5 class="mt-3">Employee Management</h5>
+          <p class="text-muted">
+            Employees, departments, roles, and reporting hierarchy.
           </p>
         </div>
       </div>
 
       <div class="col-md-4">
-        <div class="module-card">
-          <div class="module-icon">💻</div>
-          <h5>Assets & Licenses</h5>
-          <p>
-            Track hardware assets, software licenses, configurations, and renewals.
+        <div class="module-card h-100">
+          <div class="module-icon bg-warning">📁</div>
+          <h5 class="mt-3">Projects & Tasks</h5>
+          <p class="text-muted">
+            Project tracking, task assignments, and progress monitoring.
           </p>
         </div>
       </div>
 
       <div class="col-md-4">
-        <div class="module-card">
-          <div class="module-icon">📊</div>
-          <h5>Attendance & Payroll</h5>
-          <p>
-            Attendance-driven payroll processing with approval workflows.
+        <div class="module-card h-100">
+          <div class="module-icon bg-success">💰</div>
+          <h5 class="mt-3">Attendance & Payroll</h5>
+          <p class="text-muted">
+            Attendance-driven payroll with approvals and audits.
           </p>
         </div>
       </div>
@@ -88,33 +124,42 @@
   </div>
 </section>
 
-<!-- ABOUT -->
-<section class="about-section">
+<!-- SECURITY -->
+<section class="security-section">
   <div class="container">
-    <div class="row align-items-center">
+    <div class="row align-items-center g-5">
       <div class="col-md-6">
-        <h2 class="section-title">Why Perilla?</h2>
-        <p class="section-subtitle">
-          Designed for scalability, security, and enterprise growth.
-        </p>
-
-        <ul class="about-list">
-          <li>✔ Multi-Tenant SaaS Architecture</li>
-          <li>✔ Role & Permission-Based Access</li>
-          <li>✔ Modular Microservices Design</li>
-          <li>✔ Enterprise-Grade UI & UX</li>
+        <h2 class="fw-bold mb-3">Built for Enterprise Trust</h2>
+        <ul class="list-unstyled text-muted fs-5">
+          <li class="mb-2">✔ JWT-based Authentication</li>
+          <li class="mb-2">✔ Role-Based Authorization</li>
+          <li class="mb-2">✔ Tenant-Level Data Isolation</li>
+          <li class="mb-2">✔ Secure API Gateway Pattern</li>
         </ul>
       </div>
 
       <div class="col-md-6">
-        <div class="about-card">
-          <h5>Technology Stack</h5>
-          <p>
-            Built with <strong>Spring Boot Microservices</strong>,
-            <strong>Angular</strong>, JWT Security, and scalable REST APIs.
+        <div class="glass-card">
+          <h5 class="fw-semibold">Technology Stack</h5>
+          <p class="text-muted mt-2">
+            Spring Boot Microservices, Angular, REST APIs,
+            JWT Security, and Cloud-Ready Architecture.
           </p>
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-3">Ready to Scale Your Enterprise?</h2>
+    <p class="fs-5 mb-4">
+      Start managing your organization with confidence and clarity.
+    </p>
+    <a routerLink="/register" class="btn btn-light btn-lg px-5">
+      Get Started with Perilla
+    </a>
   </div>
 </section>

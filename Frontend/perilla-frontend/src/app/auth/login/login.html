@@ -1,38 +1,59 @@
 <div class="container min-vh-100 d-flex align-items-center justify-content-center">
-  <div class="card shadow-sm p-4 login-card">
-    <h3 class="text-center fw-bold mb-3">Login to Perilla</h3>
+  <div class="row w-100 justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-4">
 
-    <form (ngSubmit)="onLogin()">
-      <div class="mb-3">
-        <label>Username</label>
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="username"
-          name="username"
-          required
-        />
+      <div class="card border-0 shadow-lg login-card">
+        <div class="card-body p-4 p-md-5">
+
+          <!-- Brand -->
+          <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary mb-1">LOGIN</h2>
+          
+          </div>
+
+          <form (ngSubmit)="onLogin()" novalidate>
+
+            <div class="mb-3">
+              <label class="form-label">Username </label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                [(ngModel)]="username"
+                name="username"
+                placeholder="......"
+                required
+              />
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control form-control-lg"
+                [(ngModel)]="password"
+                name="password"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100">
+              Login
+            </button>
+          </form>
+
+          <div class="text-center mt-4">
+            <span class="text-muted small">
+              Don’t have an account?
+            </span>
+            <a routerLink="/register" class="fw-semibold ms-1">
+              Register
+            </a>
+          </div>
+
+        </div>
       </div>
 
-      <div class="mb-3">
-        <label>Password</label>
-        <input
-          type="password"
-          class="form-control"
-          [(ngModel)]="password"
-          name="password"
-          required
-        />
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100">
-        Login
-      </button>
-    </form>
-
-    <p class="text-center text-muted mt-3 mb-0">
-      Don’t have an account?
-      <a routerLink="/register">Register</a>
-    </p>
+    </div>
   </div>
 </div>
