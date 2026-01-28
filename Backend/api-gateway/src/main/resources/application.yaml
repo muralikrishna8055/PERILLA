@@ -32,6 +32,13 @@ spring:
               uri: lb://department-service
               predicates:
                   - Path=/api/departments/**
+
+            - id: project-service
+              uri: lb://PROJECT-SERVICE
+              predicates:
+                - Path=/api/projects/**,/api/tasks/**,/api/posts/**,/api/tickets/**
+
+
 eureka:
   client:
     service-url:

@@ -1,0 +1,25 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: PROJECT-SERVICE
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/perilla_project
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+
+jwt:
+  secret: perilla-super-secure-jwt-secret-key-256bit!!

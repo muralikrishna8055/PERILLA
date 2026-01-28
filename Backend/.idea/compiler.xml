@@ -20,13 +20,14 @@
         </processorPath>
         <module name="department-service" />
       </profile>
-      <profile name="Annotation profile for employee-service" enabled="true">
+      <profile name="Annotation profile for project-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
+        <module name="project-service" />
         <module name="auth-service" />
         <module name="employee-service" />
       </profile>
@@ -38,6 +39,7 @@
       <module name="auth-service" options="-parameters" />
       <module name="department-service" options="-parameters" />
       <module name="employee-service" options="-parameters" />
+      <module name="project-service" options="-parameters" />
       <module name="service-discovery" options="-parameters" />
     </option>
   </component>
