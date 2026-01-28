@@ -1,0 +1,56 @@
+<nav class="sidenav">
+  <ul class="nav flex-column">
+
+    <ng-container *ngFor="let item of menu; let i = index">
+
+      <!-- MAIN ITEM -->
+      <li class="nav-item">
+
+        <!-- Without children -->
+        <a
+          *ngIf="!item.children"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          class="nav-link"
+        >
+          <i class="bi" [ngClass]="item.icon"></i>
+          {{ item.label }}
+        </a>
+
+        <!-- With children -->
+        <a
+          *ngIf="item.children"
+          (click)="toggle(i)"
+          class="nav-link expandable"
+        >
+          <i class="bi" [ngClass]="item.icon"></i>
+          {{ item.label }}
+          <i
+            class="bi bi-chevron-down ms-auto"
+            [class.rotate]="expandedIndex === i"
+          ></i>
+        </a>
+
+        <!-- SUB MENU -->
+        <ul
+          *ngIf="item.children && expandedIndex === i"
+          class="nav flex-column sub-menu"
+        >
+          <li class="nav-item" *ngFor="let child of item.children">
+            <a
+              [routerLink]="child.route"
+              routerLinkActive="active"
+              class="nav-link sub-link"
+            >
+              <i class="bi" [ngClass]="child.icon"></i>
+              {{ child.label }}
+            </a>
+          </li>
+        </ul>
+
+      </li>
+
+    </ng-container>
+
+  </ul>
+</nav>

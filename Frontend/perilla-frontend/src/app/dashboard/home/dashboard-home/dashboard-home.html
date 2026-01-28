@@ -1,0 +1,45 @@
+<!-- KPI CARDS -->
+<div class="row g-3 mb-4">
+
+  <div class="col-xl-3 col-md-6" *ngFor="let stat of stats">
+    <div class="card kpi-card shadow-sm">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="text-muted mb-1">{{ stat.label }}</h6>
+          <h3 class="fw-bold mb-0">{{ stat.value }}</h3>
+          <small class="text-success" *ngIf="stat.trend">
+            <i class="bi bi-arrow-up"></i> {{ stat.trend }}
+          </small>
+        </div>
+        <div class="kpi-icon">
+          <i class="bi" [ngClass]="stat.icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- CHARTS -->
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white fw-semibold">
+        Employee Growth
+      </div>
+      <div class="card-body">
+        <canvas id="employeeChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white fw-semibold">
+        Project Status
+      </div>
+      <div class="card-body">
+        <canvas id="projectChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

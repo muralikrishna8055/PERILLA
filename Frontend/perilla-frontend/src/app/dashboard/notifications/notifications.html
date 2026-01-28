@@ -1,0 +1,77 @@
+<!-- MOBILE: Toggle Button -->
+<button
+  class="btn btn-outline-primary w-100 d-lg-none mb-2"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#notifCanvas">
+  <i class="bi bi-bell me-2"></i>
+  Notifications
+</button>
+
+<!-- MOBILE: Offcanvas -->
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="notifCanvas"
+  aria-labelledby="notifCanvasLabel">
+
+  <div class="offcanvas-header border-bottom">
+    <h5 id="notifCanvasLabel" class="mb-0 fw-semibold">
+      Notifications
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas">
+    </button>
+  </div>
+
+  <div class="offcanvas-body p-0">
+    <ng-container *ngTemplateOutlet="notifContent"></ng-container>
+  </div>
+</div>
+
+<!-- DESKTOP: Fixed Side Panel -->
+<div
+  class="d-none d-lg-block border-start bg-white"
+  style="width:320px; min-height:100vh">
+  <ng-container *ngTemplateOutlet="notifContent"></ng-container>
+</div>
+
+<!-- SHARED CONTENT -->
+<ng-template #notifContent>
+  <div class="p-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h6 class="fw-semibold mb-0">Notifications</h6>
+      <span class="badge bg-primary">3</span>
+    </div>
+
+    <div class="list-group list-group-flush small">
+
+      <div class="list-group-item d-flex gap-3 align-items-start">
+        <i class="bi bi-calendar-x text-info fs-5"></i>
+        <div>
+          <div class="fw-semibold">Leave Approval</div>
+          <div class="text-muted">Pending leave approvals</div>
+        </div>
+      </div>
+
+      <div class="list-group-item d-flex gap-3 align-items-start">
+        <i class="bi bi-cash-stack text-warning fs-5"></i>
+        <div>
+          <div class="fw-semibold">Payroll</div>
+          <div class="text-muted">Payroll pending for this month</div>
+        </div>
+      </div>
+
+      <div class="list-group-item d-flex gap-3 align-items-start">
+        <i class="bi bi-kanban text-success fs-5"></i>
+        <div>
+          <div class="fw-semibold">Project Assigned</div>
+          <div class="text-muted">New project assigned</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-template>
